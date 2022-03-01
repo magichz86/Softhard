@@ -1,0 +1,11 @@
+conda create -n softhardEnv python=3.8
+#创建环境
+
+cd transformers; pin install -e .
+pip install torch==1.10.2
+pip install pytorch_lightning==1.5.10
+conda install -c conda-forge git
+conda install -c conda-forge gitpython
+pip install rouge_score
+pip install sacrebleu
+#配置环境
