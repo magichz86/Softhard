@@ -3,19 +3,23 @@ import json
 
 def load_data(data_path):
     print("Loading data...")
-    with open(data_path, 'r', encoding='utf-8') as f:
-        data_all = json.load(f)
+    lines = open(data_path, encoding='utf-8').readlines()
     # 分为8:1:1
     max_num = 0
     raw_data = {'train': [], 'validation': [], 'test': []}
-    for i, data in enumerate(data_all):
+    for i, line in enumerate(lines):
+        data = json.loads(line)
         data_dump = {}
-        s = "[CLS] "
-        # for Simple Question
-        s += " [SEP] ".join(data["Triples"])
-        data_dump["triple"] = s
-        data_dump["answer"] = data["Answer"]
-        data_dump["question"] = data["Question"]
+
+        #
+        s1 = " , ".join(data["seq"])
+        data_dump["seq"] = s1
+
+        # h-type , r1.r2.r3 , t-type
+        s2 = " , ".join(data["typed_seq"])
+        data_dump["typed_seq"] = s2
+
+        data_dump["question"] = data["questions"]
         data_dump["guid"] = i
         if i % 10 < 8:
             raw_data["train"].append(data_dump)
@@ -24,10 +28,10 @@ def load_data(data_path):
         else:
             raw_data["test"].append(data_dump)
 
-    print(raw_data["validation"][0])
+    #print(raw_data["validation"][0])
 
     return raw_data
 
 
 if __name__ == '__main__':
-    load_data("../data/SimpleQuestions/Simple_Question_processed.json")
+    load_data("../data/SimpleQuestions/SQ.json")
