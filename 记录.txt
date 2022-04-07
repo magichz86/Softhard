@@ -8,4 +8,5 @@ conda install -c conda-forge git
 conda install -c conda-forge gitpython
 pip install rouge_score
 pip install sacrebleu
+pip install bert-score
 #配置环境
