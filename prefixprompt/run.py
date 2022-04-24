@@ -15,7 +15,7 @@ from transformers import AdamW
 from transformers.optimization import get_linear_schedule_with_warmup
 from openprompt.prompts import MixedTemplate
 
-from inference import cal_rougel, cal_bert_score
+from inference import cal_rougel, cal_bert_score, cal_meteor
 
 
 parser = argparse.ArgumentParser("")
@@ -145,10 +145,12 @@ def evaluate(prompt_model, dataloader, generation_arguments):
     bleu4 = generation_metric(generated_sentence, groundtruth_sentence, "sentence_bleu")
     bert_score_F1 = cal_bert_score(generated_sentence, groundtruth_sentence)
     rl_score_F1 = cal_rougel(generated_sentence, groundtruth_sentence)
+    meteor_score = cal_meteor(generated_sentence, groundtruth_sentence)
 
     print("test_bleu_4: ", 100*bleu4, flush=True)
     print("test_bert_score: "+str(bert_score_F1))
     print("test_rouge-l: " + str(rl_score_F1))
+    print("test_meteor_score: " + str(meteor_score))
 
     return generated_sentence, groundtruth_sentence
 
